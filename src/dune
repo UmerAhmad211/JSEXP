@@ -1,0 +1,6 @@
+(executable
+  (public_name jsexp)
+ (name      main)
+ (modules main)
+ (libraries yojson sexplib)
+ )
