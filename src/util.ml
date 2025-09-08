@@ -35,11 +35,16 @@ let pprint_error file_name lexbuf =
   let curr = get_line line_num in
   let af = get_line (line_num + 1) in
 
-  eprintf "Error: Syntax error at %s:%d:%d\n" file_name line_num (col_num + 1);
+  let red = "\x1b[31m" in
+  let reset = "\x1b[0m" in
+  let green = "\x1b[32m" in
+
+  eprintf "%sError:%s Syntax error at %s:%d:%d\n" red reset file_name line_num
+    (col_num + 1);
 
   if bf <> "" then
-    eprintf "%s\n" bf;
-  eprintf "%s\n" curr;
-  eprintf "%s^\n" (String.make col_num '-');
+    eprintf "%s%d%s | %s\n" green (line_num - 1) reset bf;
+  eprintf "%s%d%s | %s\n" green line_num reset curr;
+  eprintf "%s%s^%s\n" red (String.make col_num '-') reset;
   if af <> "" then
-    eprintf "%s\n" af
+    eprintf "%s%d%s | %s\n" green (line_num + 1) reset af
